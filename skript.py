@@ -66,8 +66,18 @@ def insert_into_postgres(records):
             krajina, zemepisna_sirka, zemepisna_dlzka, cas_otvorenia
         )
         VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        ON CONFLICT (id_kniznice) DO NOTHING;
+        ON CONFLICT (id_kniznice) DO UPDATE SET
+            nazov_kniznice = EXCLUDED.nazov_kniznice,
+            ulica = EXCLUDED.ulica,
+            psc = EXCLUDED.psc,
+            mesto = EXCLUDED.mesto,
+            kraj = EXCLUDED.kraj,
+            krajina = EXCLUDED.krajina,
+            zemepisna_sirka = EXCLUDED.zemepisna_sirka,
+            zemepisna_dlzka = EXCLUDED.zemepisna_dlzka,
+            cas_otvorenia = EXCLUDED.cas_otvorenia;
     """
+
 
     for rec in records:
         cur.execute(insert_sql, (
