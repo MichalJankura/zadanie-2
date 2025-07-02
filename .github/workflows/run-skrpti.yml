@@ -1,0 +1,23 @@
+name: Daily run of skript.py
+
+# Spustí workflow podľa harmonogramu
+on:
+  schedule:
+    # Cron je vždy v UTC. 7:00 CEST = 05:00 UTC
+    - cron: '0 5 * * *'
+
+jobs:
+  run-skrpti:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run skript.py
+        run: |
+          python skript.py
